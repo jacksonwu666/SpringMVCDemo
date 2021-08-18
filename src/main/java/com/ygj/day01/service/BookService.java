@@ -2,7 +2,6 @@ package com.ygj.day01.service;
 
 import com.ygj.day01.dto.Books;
 
-import java.awt.print.Book;
 import java.util.List;
 
 /**
@@ -20,6 +19,8 @@ public interface BookService {
     int updateBook(Books books);
     //根据id查询一本书
     Books queryBookById(int id);
+    //根据书名查询书籍
+    Books queryBookByName(String bookName);
     //查询所有Book
     List<Books> queryAll();
 }

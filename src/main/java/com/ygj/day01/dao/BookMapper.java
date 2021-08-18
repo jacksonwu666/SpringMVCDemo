@@ -21,6 +21,9 @@ public interface BookMapper {
     //根据id查询一本书
     Books queryBookById(int id);
 
+    //根据书名查询书籍
+    Books queryBookByName(String bookName);
+
     //查询所有书籍
     List<Books> queryAllBooks();
 }

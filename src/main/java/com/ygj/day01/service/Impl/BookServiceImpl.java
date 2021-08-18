@@ -15,6 +15,9 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     private BookMapper bookMapper;
 
+    public void setBookMapper(BookMapper bookMapper) {
+        this.bookMapper = bookMapper;
+    }
     @Override
     public int addBook(Books books) {
         return bookMapper.addBook(books);
@@ -33,6 +36,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Books queryBookById(int id) {
         return bookMapper.queryBookById(id);
+    }
+
+    @Override
+    public Books queryBookByName(String bookName) {
+        return bookMapper.queryBookByName(bookName);
     }
 
     @Override

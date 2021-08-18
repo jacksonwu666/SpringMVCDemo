@@ -6,5 +6,50 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 配置整合mybatis -->
+    <!--关联数据库文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!--数据库连接池-->
+    <!--
+       数据库连接池
+       dbcp 半自动化操作 不能自动连接
+       c3p0 自动化操作（自动加载属性配置文件，并设置到对象中）
+    -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--配置连接池的属性-->
+        <property name="driverClass" value="${db.driverClass}"/>
+        <property name="jdbcUrl" value="${db.jdbcUrl}"/>
+        <property name="user" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+
+        <!-- c3p0连接池 私有属性-->
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="10"/>
+        <!-- 关闭后不自动commit-->
+        <property name="autoCommitOnClose" value="false"/>
+        <!-- 获取连接超时时间-->
+        <property name="checkoutTimeout" value="10000"/>
+        <!-- 当获取连接失败重试次数-->
+        <property name="acquireRetryAttempts" value="2"/>
+
+    </bean>
+
+    <!--配置sqlSessionFactory 对象-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据库连接池-->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 配置MyBaties 全局配置文件mybatis-config.xml  -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <!--配置扫描dao的接口包，动态实现Dao接口注入到Spring容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--注入sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--给出需要扫描的dao包-->
+        <property name="basePackage" value="com.ygj.day01.dao"/>
+    </bean>
+
 
 </beans>
